@@ -1,7 +1,6 @@
 let app = require('express')();
 let http = require('http').createServer(app);
-var io = require('socket.io')(http);
-
+let io = require('socket.io')(http);
 
 const PORT = process.env.PORT || 3000;
 
@@ -11,6 +10,12 @@ app.get ('/', (req,res) => {
 
 io.on('connection', (socket) => {
     console.log('a user connected');
+    socket.on('disconnect', () =>{
+        console.log('user disconected');
+    });
+    socket.on('chat message', (msg) => {
+        console.log('message: ' + msg);
+    });
 });
 
 http.listen(PORT, () => {
